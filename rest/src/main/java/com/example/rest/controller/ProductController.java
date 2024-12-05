@@ -1,104 +1,54 @@
 package com.example.rest.controller;
 
-
 import com.example.rest.model.Product;
-import com.example.rest.model.ProductRepository;
+import com.example.rest.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.net.URI;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
-@Log
+
 @RestController
 @RequestMapping("/product/")
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAll(
+    public List<Product> getAll(
             @RequestParam(required = false, value = "maxPrice", defaultValue = "-1") double max,
             @RequestParam(required = false, value = "sort", defaultValue = "no") String sortDirection
     ) {
-
-        List<Product> result = productRepository.query(max, sortDirection);
-
-        if (result.isEmpty())
-            //return ResponseEntity.notFound().build();
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay productos con esos requisitos de búsqueda");
-
-        return ResponseEntity.ok(result);
-
+        return productService.query(max, sortDirection);
     }
-
-    /*@GetMapping
-    public ResponseEntity<List<Product>> getAllv2(
-            @RequestParam Map<String, String> params
-            ) {
-
-        double max = Double.valueOf(params.getOrDefault("maxPrice", "-1"));
-        String sortDirection = params.getOrDefault("sort", "no");
-
-        List<Product> result = productRepository.query(max, sortDirection);
-
-        if (result.isEmpty())
-            return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok(result);
-
-    }*/
-
-
 
     @GetMapping("/{id:[0-9]+}")
-    public ResponseEntity<Product> getById(@PathVariable Long id) {
-        /*return ResponseEntity.of(
-                productRepository.get(id)
-        );*/
-        return productRepository.get(id)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> {
-                    var exception =  new ResponseStatusException(HttpStatus.NOT_FOUND, "No hay producto con ese ID: %d".formatted(id));
-                    exception.setTitle("Producto no encontrado");
-                    exception.setType(URI.create("https://www.openwebinars.net/errors/product-not-found"));
-                    throw exception;
-                });
+    public Product getById(@PathVariable Long id) {
+        return productService.get(id);
     }
-
-
 
     @PostMapping
     public ResponseEntity<Product> create(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(productRepository.add(product));
+                .body(productService.add(product));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> edit(
+    public Product edit(
             @RequestBody Product product,
             @PathVariable("id") Long productId) {
 
-        return ResponseEntity.of(productRepository.edit(productId, product));
+        return productService.edit(productId, product);
 
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        productRepository.delete(id);
+        productService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
 
 }
