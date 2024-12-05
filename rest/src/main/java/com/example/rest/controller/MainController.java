@@ -10,7 +10,7 @@ public class MainController {
         return "Hello World";
     }
 
-    @GetMapping("/producto")
+    /*@GetMapping("/producto")
     public Producto obtenerProducto() {
         return new Producto(1L, "Nombre del producto");
     }
@@ -22,7 +22,7 @@ public class MainController {
 
     record Producto(Long id, String nombre) {
 
-    }
+    }*/
 
 }
 
