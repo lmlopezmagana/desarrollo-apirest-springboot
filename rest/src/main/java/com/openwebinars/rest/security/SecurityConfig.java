@@ -17,6 +17,7 @@ public class SecurityConfig {
 
         http
                 .cors(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests((authz) -> authz
                         .anyRequest().permitAll()
                 );
