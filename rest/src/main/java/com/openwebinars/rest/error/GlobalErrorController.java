@@ -1,4 +1,4 @@
-package com.example.rest.error;
+package com.openwebinars.rest.error;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;

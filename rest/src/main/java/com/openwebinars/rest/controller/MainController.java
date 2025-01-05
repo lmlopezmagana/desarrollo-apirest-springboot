@@ -1,4 +1,4 @@
-package com.example.rest.controller;
+package com.openwebinars.rest.controller;
 
 import org.springframework.web.bind.annotation.*;
 

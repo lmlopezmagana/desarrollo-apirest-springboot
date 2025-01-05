@@ -1,8 +1,8 @@
-package com.example.rest.service;
+package com.openwebinars.rest.service;
 
-import com.example.rest.error.ProductNotFoundException;
-import com.example.rest.model.Product;
-import com.example.rest.model.ProductRepository;
+import com.openwebinars.rest.error.ProductNotFoundException;
+import com.openwebinars.rest.model.Product;
+import com.openwebinars.rest.model.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

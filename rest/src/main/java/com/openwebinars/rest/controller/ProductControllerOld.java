@@ -1,22 +1,17 @@
-package com.example.rest.controller;
+package com.openwebinars.rest.controller;
 
 
-import com.example.rest.model.Product;
-import com.example.rest.model.ProductRepository;
+import com.openwebinars.rest.model.Product;
+import com.openwebinars.rest.model.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Log
 //@RestController

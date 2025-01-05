@@ -1,4 +1,4 @@
-package com.example.rest.model;
+package com.openwebinars.rest.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

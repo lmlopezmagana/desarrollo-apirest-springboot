@@ -1,7 +1,7 @@
-package com.example.rest.controller;
+package com.openwebinars.rest.controller;
 
-import com.example.rest.model.Product;
-import com.example.rest.service.ProductService;
+import com.openwebinars.rest.model.Product;
+import com.openwebinars.rest.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/product/")
 @RequiredArgsConstructor
-@CrossOrigin(originPatterns = "http://localhost:[*]", methods = RequestMethod.GET)
+//@CrossOrigin(originPatterns = "http://localhost:[*]", methods = RequestMethod.GET)
 public class ProductController {
 
     private final ProductService productService;

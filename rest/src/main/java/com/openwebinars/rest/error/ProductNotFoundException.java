@@ -1,4 +1,4 @@
-package com.example.rest.error;
+package com.openwebinars.rest.error;
 
 public class ProductNotFoundException extends RuntimeException{
 
