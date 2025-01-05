@@ -2,6 +2,14 @@ package com.openwebinars.rest.controller;
 
 import com.openwebinars.rest.model.Product;
 import com.openwebinars.rest.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +22,7 @@ import java.util.List;
 @RequestMapping("/product/")
 @RequiredArgsConstructor
 //@CrossOrigin(originPatterns = "http://localhost:[*]", methods = RequestMethod.GET)
+@Tag(name = "Products", description = "Gestión básica de productos")
 public class ProductController {
 
     private final ProductService productService;
@@ -26,13 +35,47 @@ public class ProductController {
         return productService.query(max, sortDirection);
     }
 
+    @Operation(
+            summary = "Obtener un producto concreto",
+            description = "Permite obtener la información de un producto si se le proporciona un id",
+            tags = {"params", "products", "detail"}
+    )
+    @ApiResponse(description = "Información detallada del producto",
+        responseCode = "200",
+        content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = Product.class),
+                examples = {
+                        @ExampleObject("""
+                                {
+                                    "id": 3,
+                                    "name": "Headphones",
+                                    "price": 150.0
+                                }
+                                """)
+                }
+        )
+    )
     @GetMapping("/{id:[0-9]+}")
-    public Product getById(@PathVariable Long id) {
+    public Product getById(@Parameter(description = "Identificador del producto") @PathVariable Long id) {
         return productService.get(id);
     }
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody Product product) {
+    public ResponseEntity<Product> create(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Producto a crear", required = true,
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Product.class),
+                            examples = @ExampleObject("""
+                                {
+                                    "name": "New product",
+                                    "price": 123.45
+                                }
+                                """)
+                    )
+            )
+            @RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(productService.add(product));
     }
