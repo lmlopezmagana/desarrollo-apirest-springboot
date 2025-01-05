@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         //registry.addMapping("/**");
         registry.addMapping("/product/**")
-                .allowedOrigins("http://localhost:9001")
+                .allowedOrigins("http://localhost:9000")
                 .allowedMethods("GET", "POST");
     }
 }
