@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/product/")
 @RequiredArgsConstructor
+@CrossOrigin(originPatterns = "http://localhost:[*]", methods = RequestMethod.GET)
 public class ProductController {
 
     private final ProductService productService;
