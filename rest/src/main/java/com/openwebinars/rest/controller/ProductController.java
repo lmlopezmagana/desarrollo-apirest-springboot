@@ -29,8 +29,8 @@ public class ProductController {
 
     @GetMapping
     public List<Product> getAll(
-            @RequestParam(required = false, value = "maxPrice", defaultValue = "-1") double max,
-            @RequestParam(required = false, value = "sort", defaultValue = "no") String sortDirection
+            @RequestParam(required = false, value = "maxPrice", defaultValue = "99999999") double max,
+            @RequestParam(required = false, value = "sort", defaultValue = "asc") String sortDirection
     ) {
         return productService.query(max, sortDirection);
     }
