@@ -1,6 +1,6 @@
 package com.openwebinars.todo.rest.service;
 
-import com.openwebinars.todo.rest.dto.NewTaskCommand;
+import com.openwebinars.todo.rest.dto.EditTaskDto;
 import com.openwebinars.todo.rest.error.TaskNotFoundException;
 import com.openwebinars.todo.rest.model.Task;
 import com.openwebinars.todo.rest.repos.TaskRepository;
@@ -30,7 +30,7 @@ public class TaskService {
                 .orElseThrow(()-> new TaskNotFoundException(id));
     }
 
-    public Task save(NewTaskCommand cmd) {
+    public Task save(EditTaskDto cmd) {
         return taskRepository.save(
                 Task.builder()
                         .title(cmd.title())
@@ -40,6 +40,21 @@ public class TaskService {
         );
     }
 
+    public Task edit(EditTaskDto cmd, Long id) {
+        return taskRepository.findById(id)
+                .map(t -> {
+                    t.setTitle(cmd.title());
+                    t.setDescription(cmd.description());
+                    t.setDeadline(cmd.deadline());
+                    return taskRepository.save(t);
+                })
+                .orElseThrow(()-> new TaskNotFoundException(id));
+    }
+
+
+    public void delete(Long id) {
+        taskRepository.deleteById(id);
+    }
 
 
 }

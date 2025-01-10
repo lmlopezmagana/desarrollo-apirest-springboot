@@ -1,6 +1,6 @@
 package com.openwebinars.todo.rest.controller;
 
-import com.openwebinars.todo.rest.dto.NewTaskCommand;
+import com.openwebinars.todo.rest.dto.EditTaskDto;
 import com.openwebinars.todo.rest.model.Task;
 import com.openwebinars.todo.rest.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +29,21 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> create(@RequestBody NewTaskCommand cmd) {
+    public ResponseEntity<Task> create(@RequestBody EditTaskDto cmd) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 taskService.save(cmd)
         );
+    }
+
+    @PutMapping("/{id}")
+    public Task edit(@RequestBody EditTaskDto cmd, @PathVariable Long id) {
+        return taskService.edit(cmd, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        taskService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 
