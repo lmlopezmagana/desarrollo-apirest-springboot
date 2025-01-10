@@ -1,6 +1,7 @@
 package com.openwebinars.todo.rest.controller;
 
 import com.openwebinars.todo.rest.dto.EditTaskDto;
+import com.openwebinars.todo.rest.dto.GetTaskDto;
 import com.openwebinars.todo.rest.model.Task;
 import com.openwebinars.todo.rest.service.TaskService;
 import lombok.RequiredArgsConstructor;
@@ -19,25 +20,29 @@ public class TaskController {
 
 
     @GetMapping
-    public List<Task> getAll() {
-        return taskService.findAll();
+    public List<GetTaskDto> getAll() {
+        return taskService.findAll()
+                .stream()
+                .map(GetTaskDto::of)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public Task getById(@PathVariable Long id) {
-        return taskService.findById(id);
+    public GetTaskDto getById(@PathVariable Long id) {
+        return GetTaskDto.of(taskService.findById(id));
+
     }
 
     @PostMapping
-    public ResponseEntity<Task> create(@RequestBody EditTaskDto cmd) {
+    public ResponseEntity<GetTaskDto> create(@RequestBody EditTaskDto cmd) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                taskService.save(cmd)
+                GetTaskDto.of(taskService.save(cmd))
         );
     }
 
     @PutMapping("/{id}")
-    public Task edit(@RequestBody EditTaskDto cmd, @PathVariable Long id) {
-        return taskService.edit(cmd, id);
+    public GetTaskDto edit(@RequestBody EditTaskDto cmd, @PathVariable Long id) {
+        return GetTaskDto.of(taskService.edit(cmd, id));
     }
 
     @DeleteMapping("/{id}")

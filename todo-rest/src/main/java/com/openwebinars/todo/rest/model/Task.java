@@ -1,9 +1,7 @@
 package com.openwebinars.todo.rest.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import com.openwebinars.todo.rest.users.User;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -32,6 +30,9 @@ public class Task {
     private String description;
 
     private LocalDateTime deadline;
+
+    @ManyToOne
+    private User author;
 
 
     @Override
