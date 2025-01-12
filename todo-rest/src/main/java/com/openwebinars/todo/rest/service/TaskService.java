@@ -4,6 +4,7 @@ import com.openwebinars.todo.rest.dto.EditTaskDto;
 import com.openwebinars.todo.rest.error.TaskNotFoundException;
 import com.openwebinars.todo.rest.model.Task;
 import com.openwebinars.todo.rest.repos.TaskRepository;
+import com.openwebinars.todo.rest.users.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,17 +26,27 @@ public class TaskService {
         return result;
     }
 
+    public List<Task> findByAuthor(User author) {
+        List<Task> result = taskRepository.findByAuthor(author);
+
+        if (result.isEmpty())
+            throw new TaskNotFoundException();
+
+        return result;
+    }
+
     public Task findById(Long id) {
         return taskRepository.findById(id)
                 .orElseThrow(()-> new TaskNotFoundException(id));
     }
 
-    public Task save(EditTaskDto cmd) {
+    public Task save(EditTaskDto cmd, User author) {
         return taskRepository.save(
                 Task.builder()
                         .title(cmd.title())
                         .description(cmd.description())
                         .deadline(cmd.deadline())
+                        .author(author)
                         .build()
         );
     }
